@@ -268,6 +268,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--colo
   position: absolute; top: 0; left: 0;
   width: 100%; height: 100%;
   object-fit: cover;
+  object-position: center 30%;
 }
 .cover-wordmark {
   position: absolute;
@@ -299,6 +300,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--colo
   .slide-split { flex-direction: column; }
   .slide-split__content { width: 100%; padding: 32px 24px; }
   .slide-split__image { width: 100%; height: 200px; position: relative; }
+  .slide-split__image img { object-position: center center; }
+  .cover-top .t-h3 { font-size: clamp(38px, 5.5vw, 64px); }
+  .t-h1 { max-width: 100% !important; }
 }
 </style>
 </head>
@@ -348,12 +352,20 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--colo
           <h2 class="t-h1" style="color: var(--color-cloud);">The health stack is reactive by design</h2>
         </div>
         <div style="display: flex; flex-direction: column; justify-content: center;">
-          <ul class="bullet-list">
-            <li style="color: var(--color-cloud);">Bloodwork confirms after the fact</li>
-            <li style="color: var(--color-cloud);">Wearables track, but don't explain</li>
-            <li style="color: var(--color-cloud);">Supplements rely on guesswork</li>
-            <li style="color: var(--color-cloud);">Care intervenes when something breaks</li>
-          </ul>
+          <div style="display: flex; flex-direction: column;">
+            <div style="padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.12);">
+              <p style="font-family: var(--font-secondary); font-size: clamp(14px, 1.4vw, 20px); line-height: 1.5; color: var(--color-cloud); letter-spacing: 0.02em;">Bloodwork confirms after the fact</p>
+            </div>
+            <div style="padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.12);">
+              <p style="font-family: var(--font-secondary); font-size: clamp(14px, 1.4vw, 20px); line-height: 1.5; color: var(--color-cloud); letter-spacing: 0.02em;">Wearables track, but don't explain</p>
+            </div>
+            <div style="padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.12);">
+              <p style="font-family: var(--font-secondary); font-size: clamp(14px, 1.4vw, 20px); line-height: 1.5; color: var(--color-cloud); letter-spacing: 0.02em;">Supplements rely on guesswork</p>
+            </div>
+            <div style="padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.12);">
+              <p style="font-family: var(--font-secondary); font-size: clamp(14px, 1.4vw, 20px); line-height: 1.5; color: var(--color-cloud); letter-spacing: 0.02em;">Care intervenes when something breaks</p>
+            </div>
+          </div>
           <div style="margin-top: 40px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1);">
             <p class="t-tagline" style="color: var(--color-cloud); opacity: 0.55;">We are measuring everything, but understanding too late</p>
           </div>
@@ -473,12 +485,20 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--colo
           <p class="t-tagline" style="color: var(--color-cloud); opacity: 0.45; margin-top: 32px;">Billions are flowing into measurement, optimization, and intervention. Nothing is capturing signal before breakdown.</p>
         </div>
         <div style="display: flex; flex-direction: column; justify-content: center; gap: 0;">
-          <ul class="bullet-list">
-            <li style="color: var(--color-cloud);">Wearables projected to exceed $230B by 2033, tracking everything after the fact</li>
-            <li style="color: var(--color-cloud);">Diagnostics expanding into consumer-direct models, projected at $209B by 2032</li>
-            <li style="color: var(--color-cloud);">Supplements approaching $350B by 2032, optimizing without direction</li>
-            <li style="color: var(--color-cloud);">Digital care platforms scaling past $1T by 2034, intervening without upstream context</li>
-          </ul>
+          <div style="display: flex; flex-direction: column;">
+            <div style="padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.12);">
+              <p style="font-family: var(--font-secondary); font-size: clamp(14px, 1.4vw, 20px); line-height: 1.5; color: var(--color-cloud); letter-spacing: 0.02em;">Wearables projected to exceed $230B by 2033, tracking everything after the fact</p>
+            </div>
+            <div style="padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.12);">
+              <p style="font-family: var(--font-secondary); font-size: clamp(14px, 1.4vw, 20px); line-height: 1.5; color: var(--color-cloud); letter-spacing: 0.02em;">Diagnostics expanding into consumer-direct models, projected at $209B by 2032</p>
+            </div>
+            <div style="padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.12);">
+              <p style="font-family: var(--font-secondary); font-size: clamp(14px, 1.4vw, 20px); line-height: 1.5; color: var(--color-cloud); letter-spacing: 0.02em;">Supplements approaching $350B by 2032, optimizing without direction</p>
+            </div>
+            <div style="padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.12);">
+              <p style="font-family: var(--font-secondary); font-size: clamp(14px, 1.4vw, 20px); line-height: 1.5; color: var(--color-cloud); letter-spacing: 0.02em;">Digital care platforms scaling past $1T by 2034, intervening without upstream context</p>
+            </div>
+          </div>
           <div style="margin-top: 32px; padding: 20px 24px; background: var(--color-lemon);">
             <p style="font-family: var(--font-secondary); font-size: clamp(13px, 1.3vw, 17px); font-weight: 500; color: var(--color-petrichor); letter-spacing: 0.02em;">The upstream layer is missing</p>
           </div>
