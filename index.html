@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attuned — Partner Vision Deck</title>
+<style>
+@font-face {
+  font-family: 'Rhymes Text';
+  src: url('rhymes-text-300-normal.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Rhymes Text';
+  src: url('rhymes-text-300-italic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  src: url('neue-haas-grotesk-display-400-normal.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --color-lemon:     #F3EC01;
+  --color-petrichor: #1a1a1a;
+  --color-cloud:     #F8F9EC;
+  --color-dark-gray: #655758;
+  --color-warm-gray: #AFA7A7;
+  --font-primary:    'Rhymes Text', Georgia, serif;
+  --font-secondary:  'Neue Haas Grotesk Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --topbar-h:        64px;
+  --bottomnav-h:     64px;
+  --ease-brand:      cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out-soft:   cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+html, body { width: 100%; height: 100%; overflow: hidden; background: var(--color-petrichor); font-family: var(--font-secondary); -webkit-font-smoothing: antialiased; }
+
+/* ── PROGRESS ── */
+#progress-bar { position: fixed; top: 0; left: 0; height: 2px; z-index: 200; transition: width 0.5s var(--ease-out-soft), background-color 0.5s; }
+
+/* ── FIXED TOPBAR ── */
+#topbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--topbar-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px;
+  z-index: 100;
+  border-bottom: 1px solid currentColor;
+  transition: background-color 0.5s var(--ease-out-soft), color 0.5s var(--ease-out-soft);
+}
+
+#topbar__logo { display: flex; align-items: center; height: 26px; }
+#topbar__logo svg { height: 26px; width: auto; display: block; }
+
+#topbar__section {
+  font-family: var(--font-secondary); font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.45;
+}
+
+#topbar__page {
+  font-family: var(--font-secondary); font-size: 11px;
+  letter-spacing: 0.1em; opacity: 0.35;
+}
+
+/* ── FIXED BOTTOM NAV ── */
+#bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: var(--bottomnav-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px;
+  z-index: 100;
+  border-top: 1px solid currentColor;
+  transition: background-color 0.5s var(--ease-out-soft), color 0.5s var(--ease-out-soft);
+}
+
+/* ── SLIDES CONTAINER ── */
+#slides {
+  position: fixed;
+  top: var(--topbar-h); bottom: var(--bottomnav-h);
+  left: 0; right: 0;
+  overflow-y: auto; overflow-x: hidden;
+}
+
+.slide {
+  height: 100%;
+  display: flex; flex-direction: column;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.6s var(--ease-out-soft), transform 0.6s var(--ease-out-soft);
+  transform: translateY(20px);
+  position: absolute; top: 0; left: 0; right: 0;
+  overflow: hidden;
+}
+
+.slide.needs-scroll {
+  height: auto; min-height: 100%;
+  overflow-y: visible;
+}
+
+.slide.active {
+  opacity: 1; pointer-events: all;
+  transform: translateY(0); position: relative;
+}
+
+.slide.exit {
+  opacity: 0; transform: translateY(-20px);
+  pointer-events: none; position: absolute; top: 0; left: 0; right: 0;
+}
+
+.slide-body {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; padding: 48px;
+}
+
+/* ── COLORWAYS ── */
+.cw-cloud     { background: var(--color-cloud);     color: var(--color-petrichor); }
+.cw-petrichor { background: var(--color-petrichor); color: var(--color-cloud); }
+.cw-lemon     { background: var(--color-lemon);     color: var(--color-petrichor); }
+.cw-dark      { background: var(--color-petrichor); color: var(--color-lemon); }
+.cw-cover     { background: #1a1a1a; color: var(--color-cloud); }
+
+/* ── TYPE — no italics ── */
+.t-h1 { font-family: var(--font-primary); font-size: clamp(38px, 5.5vw, 64px); font-weight: 300; line-height: 1.1; letter-spacing: 0; font-style: normal; }
+.t-h2 { font-family: var(--font-secondary); font-size: clamp(20px, 2.8vw, 38px); font-weight: 400; line-height: 1.1; letter-spacing: 0.06em; text-transform: uppercase; }
+.t-h3 { font-family: var(--font-primary); font-size: clamp(22px, 3vw, 44px); font-weight: 300; line-height: 1.2; font-style: normal; }
+.t-label { font-family: var(--font-secondary); font-size: clamp(10px, 1vw, 12px); font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; }
+.t-tagline { font-family: var(--font-primary); font-size: clamp(16px, 2vw, 28px); font-weight: 300; line-height: 1.5; font-style: normal; }
+
+/* ── BULLET LIST ── */
+.bullet-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.bullet-list li { display: flex; align-items: flex-start; gap: 14px; font-family: var(--font-secondary); font-size: clamp(14px, 1.4vw, 20px); line-height: 1.5; letter-spacing: 0.02em; }
+.bullet-list li::before { content: ''; display: block; width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; margin-top: 0.6em; opacity: 0.35; }
+.bullet-list--accent li::before { background: var(--color-lemon); opacity: 1; }
+
+/* ── STACK GRID ── */
+.stack-grid { display: flex; flex-direction: column; gap: 2px; max-width: 520px; }
+.stack-row { display: flex; align-items: center; gap: 16px; padding: 16px 24px; }
+.stack-row--attuned { background: var(--color-lemon); color: var(--color-petrichor); }
+.stack-row--mid { background: rgba(255,255,255,0.08); color: var(--color-cloud); }
+.stack-row--bot { background: rgba(255,255,255,0.04); color: var(--color-warm-gray); }
+.stack-row__label { font-family: var(--font-secondary); font-size: clamp(11px, 1.1vw, 15px); letter-spacing: 0.08em; text-transform: uppercase; flex: 1; }
+.stack-row__tag { font-family: var(--font-secondary); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; }
+
+/* ── TRACTION ── */
+.traction-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+.traction-card { padding: 24px 28px; background: rgba(255,255,255,0.05); border-left: 2px solid transparent; }
+.traction-card--accent { border-left-color: var(--color-lemon); }
+.traction-card__heading { font-family: var(--font-secondary); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-lemon); margin-bottom: 12px; }
+.traction-card__items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.traction-card__items li { font-family: var(--font-secondary); font-size: clamp(12px, 1.1vw, 15px); line-height: 1.5; color: var(--color-cloud); opacity: 0.85; padding-left: 12px; position: relative; }
+.traction-card__items li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 4px; height: 4px; border-radius: 50%; background: var(--color-lemon); opacity: 0.5; }
+
+/* ── TWO-COL ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0; align-items: start; }
+.two-col > *:first-child { padding-right: 96px; }
+.two-col > *:last-child { padding-left: 96px; }
+.two-col--wide { grid-template-columns: 1fr 1fr; }
+
+/* ── PILLARS ── */
+.pillars { display: flex; flex-direction: column; }
+.pillar { display: flex; align-items: flex-start; gap: 24px; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.pillar:first-child { border-top: 1px solid rgba(255,255,255,0.1); }
+.pillar__num { font-family: var(--font-secondary); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-lemon); flex-shrink: 0; padding-top: 2px; min-width: 32px; }
+.pillar__text { font-family: var(--font-primary); font-size: clamp(18px, 2vw, 28px); font-weight: 300; line-height: 1.3; color: var(--color-cloud); }
+
+/* ── FOCUS LIST ── */
+.focus-list { display: flex; flex-direction: column; max-width: 480px; }
+.focus-item { display: flex; align-items: center; gap: 20px; padding: 18px 0; border-bottom: 1px solid rgba(26,26,26,0.12); }
+.focus-item__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--color-petrichor); flex-shrink: 0; opacity: 0.35; }
+.focus-item__label { font-family: var(--font-primary); font-size: clamp(17px, 1.9vw, 25px); font-weight: 300; color: var(--color-petrichor); }
+
+/* ── INSIGHT ROWS ── */
+.insight-row { display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(248,249,236,0.08); }
+.insight-row:first-child { border-top: 1px solid rgba(248,249,236,0.08); }
+.insight-row__stage { font-family: var(--font-secondary); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; min-width: 120px; color: var(--color-warm-gray); }
+.insight-row__bar { height: 2px; background: rgba(255,255,255,0.1); flex: 1; border-radius: 1px; }
+.insight-row__bar-fill { height: 100%; border-radius: 1px; }
+.insight-row--highlight .insight-row__stage { color: var(--color-lemon); }
+
+/* ── NAV BUTTONS ── */
+.nav-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: transparent; border: 1px solid currentColor;
+  border-radius: 9999px; padding: 9px 22px;
+  font-family: var(--font-secondary); font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  cursor: pointer; color: inherit; opacity: 0.5;
+  transition: opacity 0.2s var(--ease-brand), background-color 0.2s var(--ease-brand), color 0.2s var(--ease-brand);
+}
+
+.nav-btn:hover:not(:disabled) { opacity: 1; }
+
+.cw-cloud .nav-btn:hover:not(:disabled),
+.cw-lemon .nav-btn:hover:not(:disabled) {
+  background: var(--color-petrichor); color: var(--color-cloud);
+}
+
+.cw-petrichor .nav-btn:hover:not(:disabled),
+.cw-dark .nav-btn:hover:not(:disabled),
+.cw-cover .nav-btn:hover:not(:disabled) {
+  background: var(--color-cloud); color: var(--color-petrichor);
+}
+
+.nav-btn:disabled { opacity: 0.15; cursor: default; }
+.nav-btn svg { flex-shrink: 0; transition: transform 0.2s var(--ease-brand); }
+#btn-next:hover:not(:disabled) svg { transform: translateX(3px); }
+#btn-prev:hover:not(:disabled) svg { transform: translateX(-3px); }
+
+/* ── CTA BUTTON ── */
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 1px solid currentColor; border-radius: 9999px;
+  padding: 10px 24px; cursor: pointer; background: transparent;
+  font-family: var(--font-secondary); font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: inherit; opacity: 0.65;
+  transition: opacity 0.2s var(--ease-brand), background-color 0.2s var(--ease-brand), color 0.2s var(--ease-brand);
+}
+.cta-btn:hover { opacity: 1; background: var(--color-petrichor); color: var(--color-cloud); }
+.cta-btn svg { transition: transform 0.2s var(--ease-brand); }
+.cta-btn:hover svg { transform: translateX(3px); }
+
+.key-hint { font-family: var(--font-secondary); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.2; }
+
+/* ── IMAGE-COL LAYOUT ── */
+.slide-split { display: flex; flex-direction: row; height: 100%; }
+.slide-split__content {
+  width: 50%; flex-shrink: 0;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 48px;
+}
+.slide-split__image {
+  width: 50%; flex-shrink: 0;
+  position: relative; overflow: hidden;
+  min-height: 100%;
+}
+.slide-split__image img {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* ── COVER SLIDE ── */
+.cover-slide { display: flex; flex-direction: column; }
+.cover-top {
+  height: 50%; flex-shrink: 0;
+  background: #1a1a1a;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 48px 40px 48px;
+}
+.cover-top__content { display: flex; flex-direction: column; gap: 32px; }
+.cover-top__meta {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cover-top__meta-right { display: flex; gap: 32px; }
+.cover-bottom {
+  height: 50%; flex-shrink: 0;
+  position: relative; overflow: hidden;
+  background: #1a1a1a;
+}
+.cover-bottom__img {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.cover-wordmark {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: auto;
+  z-index: 2;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  :root { --topbar-h: 56px; --bottomnav-h: 60px; }
+  #topbar, #bottom-nav { padding: 0 24px; }
+  .slide-body { padding: 32px 24px; }
+  .two-col, .two-col--wide { grid-template-columns: 1fr; gap: 28px; }
+  .two-col > *:first-child { padding-right: 0; }
+  .two-col > *:last-child { padding-left: 0; }
+  .traction-grid { grid-template-columns: 1fr; }
+  .key-hint { display: none; }
+  #topbar__section { display: none; }
+  .cover-top { padding: 0 24px 28px 24px; }
+  .cover-top__meta { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .cover-top__meta-right { gap: 20px; }
+  .slide-split { flex-direction: column; }
+  .slide-split__content { width: 100%; padding: 32px 24px; }
+  .slide-split__image { width: 100%; height: 200px; position: relative; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div id="topbar">
+  <div id="topbar__logo">
+    <svg viewBox="0 0 211 206" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M69.2708 41.93C62.4824 41.93 55.9597 47.5681 55.9597 59.2599C55.9597 68.9931 58.3504 81.219 75.2032 120.834C86.9796 148.58 88.2192 154.693 88.2192 159.559C88.2192 163.922 85.74 166.592 82.2277 166.592C77.4464 166.592 71.7795 162.705 63.8106 144.04C53.9822 120.923 47.1348 116.146 39.3135 116.146C32.9088 116.146 27.8913 121.517 27.8913 128.668C27.8913 133.565 29.5146 140.33 33.2039 148.995C36.9818 157.957 37.9558 161.31 37.9558 163.922C37.9558 167.364 35.1814 170.658 30.5771 170.658H0L14.108 203.923H36.5686C48.1679 203.923 54.0117 197.068 54.0117 189.649C54.0117 183.477 49.8207 177.691 49.8207 170.42C49.8207 166.266 52.3884 163.031 56.6976 163.031C60.6821 163.031 66.7621 166.711 72.7535 180.806C81.0471 200.332 89.1341 206 96.6604 206C104.187 206 109.529 200.54 109.529 190.688C109.529 183.002 107.345 171.756 89.0751 128.728C84.4118 117.719 82.818 109.825 82.818 105.73C82.818 99.9435 85.7104 97.1541 88.9571 97.1541C93.6204 97.1541 98.0476 100.151 109.735 127.659L142.113 203.893H153.742L111.359 104.068C90.6689 55.3132 80.3093 41.9003 69.3298 41.9003L69.2708 41.93Z" fill="currentColor"/>
+      <path d="M90.2262 0L176.852 203.952H211L124.375 0H90.2262Z" fill="currentColor"/>
+    </svg>
+  </div>
+  <span id="topbar__section"></span>
+  <span id="topbar__page"></span>
+</div>
+
+<div id="slides">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide cover-slide cw-cover" data-slide="0" data-label="Overview" style="background: none;">
+    <div class="cover-top">
+      <div class="cover-top__content animate-in">
+        <p class="t-h3" style="color: var(--color-cloud);">Preventative Performance<br>Intelligence</p>
+        <div class="cover-top__meta">
+          <p class="t-label" style="color: var(--color-lemon);">The earliest measurable signal in the health stack</p>
+          <div class="cover-top__meta-right">
+            <span class="t-label" style="color: var(--color-warm-gray); opacity: 0.5;">Confidential</span>
+            <span class="t-label" style="color: var(--color-warm-gray); opacity: 0.5;">@2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cover-bottom">
+      <img class="cover-bottom__img" src="Race_Runner.jpg" alt="">
+      <svg class="cover-wordmark" viewBox="0 0 475.17 101.92" xmlns="http://www.w3.org/2000/svg"><g><path d="M168.67,96.59c-6.92,0-9.08-4.47-9.08-10.81v-49.3h20.47v-2.88h-20.47v-17.44h-.43c-8.36,6.63-17.59,13.7-26.96,19.89v.43h12.97v48.58c0,10.96,6.63,16.87,16.15,16.87,7.79,0,14.27-3.03,19.46-7.21l-.86-1.44c-3.6,2.02-7.35,3.32-11.25,3.32Z" fill="var(--color-lemon)"/><path d="M118.07,96.59c-6.92,0-9.08-4.47-9.08-10.81v-49.3h20.47v-2.88h-20.47v-17.44h-.43c-8.36,6.63-17.59,13.7-26.96,19.89v.43h12.97v48.58c0,10.96,6.63,16.87,16.15,16.87,7.78,0,14.27-3.03,19.46-7.21l-.87-1.44c-3.6,2.02-7.35,3.32-11.24,3.32Z" fill="var(--color-lemon)"/><path d="M39.79,0L0,100.19h3.46l13.39-33.88h35.24l14.08,33.88h16.87L40.22,0h-.43ZM18.1,63.14l15.78-39.93h.29l16.6,39.93H18.1Z" fill="var(--color-lemon)"/><path d="M448.07,0v1.73c8.65,0,12.69,4.04,12.69,12.69v28.26h-.29c-2.88-4.32-10.38-10.67-21.34-10.67-16.29,0-28.11,15.42-28.11,34.89s11.82,35.03,28.11,35.03c10.96,0,18.45-6.34,21.34-10.67h.29v8.94h14.42V0h-27.1ZM460.75,89.38c-4.47,3.6-8.79,5.48-14.56,5.48-12.4,0-20.76-10.38-20.76-27.97s8.36-27.82,20.76-27.82c5.91,0,10.81,1.87,14.56,5.48v44.83Z" fill="var(--color-lemon)"/><path d="M239.03,86.78c-4.47,4.04-10.09,6.92-15.71,6.92-8.65,0-12.97-6.05-12.97-15.28v-44.83h-26.96v1.87c8.65,0,12.69,4.04,12.69,12.69v30.99c0,14.56,7.78,22.63,20.04,22.63,9.95,0,16.29-4.9,22.63-13.12h.29v11.53h14.42V33.59h-14.42v53.19Z" fill="var(--color-lemon)"/><path d="M381.32,94.86c-15.14,0-23.35-14.13-23.35-32.15,0-1.9.11-3.72.3-5.48h43.96c-1.01-13.55-11.53-25.23-26.67-25.23-19.17,0-32,15.42-32,34.02,0,20.18,13.26,35.9,31,35.9,13.41,0,22.35-8.22,29.27-19.61l-1.44-.86c-6.2,8.94-13.26,13.41-21.05,13.41ZM375.55,34.6c7.06,0,11.24,5.19,11.24,11.24,0,4.9-3.32,8.51-9.08,8.51h-19.05c2.09-12.04,8.7-19.75,16.88-19.75Z" fill="var(--color-lemon)"/><path d="M312.41,32c-9.95,0-16.29,4.9-22.63,13.12h-.29v-11.53h-27.1v1.87c8.65,0,12.69,4.04,12.69,12.69v52.04h14.42v-53.19c4.47-4.04,10.09-6.92,15.71-6.92,8.65,0,12.97,6.05,12.97,15.28v44.83h14.27v-44.11c0-14.99-7.79-24.07-20.04-24.07Z" fill="var(--color-lemon)"/></g></svg>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: THE PROBLEM -->
+  <div class="slide cw-petrichor" data-slide="1" data-label="The Problem">
+    <div class="slide-body">
+      <div class="two-col animate-in">
+        <div>
+          <p class="t-label" style="color: var(--color-lemon); margin-bottom: 24px;">The current reality</p>
+          <h2 class="t-h1" style="color: var(--color-cloud);">The health stack is reactive by design</h2>
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <ul class="bullet-list">
+            <li style="color: var(--color-cloud);">Bloodwork confirms after the fact</li>
+            <li style="color: var(--color-cloud);">Wearables track, but don't explain</li>
+            <li style="color: var(--color-cloud);">Supplements rely on guesswork</li>
+            <li style="color: var(--color-cloud);">Care intervenes when something breaks</li>
+          </ul>
+          <div style="margin-top: 40px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <p class="t-tagline" style="color: var(--color-cloud); opacity: 0.55;">We are measuring everything, but understanding too late</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: THE INSIGHT -->
+  <div class="slide cw-petrichor" data-slide="2" data-label="The Insight">
+    <div class="slide-body">
+      <div class="two-col animate-in">
+        <div>
+          <p class="t-label" style="color: var(--color-lemon); margin-bottom: 20px;">What's missing</p>
+          <h2 class="t-h1" style="color: var(--color-cloud);">The health stack is missing an upstream signal layer</h2>
+          <p class="t-tagline" style="color: var(--color-cloud); opacity: 0.5; margin-top: 32px;">No system identifies what needs attention before breakdown</p>
+        </div>
+        <div>
+          <p class="t-label" style="opacity: 0.3; margin-bottom: 20px;">Every major category operates downstream</p>
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <div class="insight-row">
+              <span class="insight-row__stage">Measurement</span>
+              <div class="insight-row__bar"><div class="insight-row__bar-fill" style="width: 100%; background: rgba(255,255,255,0.2);"></div></div>
+            </div>
+            <div class="insight-row">
+              <span class="insight-row__stage">Diagnosis</span>
+              <div class="insight-row__bar"><div class="insight-row__bar-fill" style="width: 78%; background: rgba(255,255,255,0.15);"></div></div>
+            </div>
+            <div class="insight-row">
+              <span class="insight-row__stage">Intervention</span>
+              <div class="insight-row__bar"><div class="insight-row__bar-fill" style="width: 56%; background: rgba(255,255,255,0.1);"></div></div>
+            </div>
+            <div class="insight-row insight-row--highlight" style="margin-top: 8px;">
+              <span class="insight-row__stage">Early Signal</span>
+              <div class="insight-row__bar"><div class="insight-row__bar-fill" style="width: 35%; background: var(--color-lemon);"></div></div>
+              <span class="t-label" style="color: var(--color-lemon); font-size: 10px;">Missing</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: CATEGORY CREATION -->
+  <div class="slide cw-petrichor" data-slide="3" data-label="Category Creation">
+    <div class="slide-body">
+      <div class="two-col animate-in">
+        <div>
+          <p class="t-label" style="color: var(--color-lemon); margin-bottom: 20px;">From reactive to predictive</p>
+          <h2 class="t-h1" style="color: var(--color-cloud);">A new layer above the stack</h2>
+          <p class="t-tagline" style="color: var(--color-cloud); opacity: 0.5; margin-top: 32px;">We're not another health tool. We're the layer that tells every other tool what to do</p>
+        </div>
+        <div>
+          <div class="stack-grid">
+            <div class="stack-row stack-row--attuned">
+              <span class="stack-row__label" style="font-weight: 500;">Attuned</span>
+              <span class="stack-row__tag" style="opacity: 1; font-weight: 500;">Early Signal</span>
+            </div>
+            <div class="stack-row stack-row--mid">
+              <span class="stack-row__label">Wearables / Bloodwork</span>
+              <span class="stack-row__tag">Measurement</span>
+            </div>
+            <div class="stack-row stack-row--bot">
+              <span class="stack-row__label">Care / Supplements</span>
+              <span class="stack-row__tag">Intervention</span>
+            </div>
+          </div>
+          <p class="t-label" style="opacity: 0.2; font-size: 10px; margin-top: 14px; padding-left: 4px;">Predictive above · Reactive below</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: WHAT ATTUNED DOES -->
+  <div class="slide cw-cloud" data-slide="4" data-label="What Attuned Does" style="background: none;">
+    <div class="slide-split">
+      <div class="slide-split__content" style="background: var(--color-cloud);">
+        <div class="animate-in" style="display: flex; flex-direction: column; gap: 40px;">
+          <div>
+            <p class="t-label" style="color: var(--color-dark-gray); margin-bottom: 20px;">The mechanism</p>
+            <h2 class="t-h1">Turns early biological signal into clear action</h2>
+            <p class="t-tagline" style="opacity: 0.5; margin-top: 20px;">One system across elite performance and everyday wellness</p>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;">
+            <div style="padding: 24px 20px; background: var(--color-petrichor); color: var(--color-cloud);">
+              <p class="t-label" style="color: var(--color-lemon); font-size: 10px; margin-bottom: 12px;">01</p>
+              <p style="font-family: var(--font-secondary); font-size: clamp(13px, 1.2vw, 16px); line-height: 1.45;">Identifies systemic stress before symptoms</p>
+            </div>
+            <div style="padding: 24px 20px; background: var(--color-petrichor); color: var(--color-cloud);">
+              <p class="t-label" style="color: var(--color-lemon); font-size: 10px; margin-bottom: 12px;">02</p>
+              <p style="font-family: var(--font-secondary); font-size: clamp(13px, 1.2vw, 16px); line-height: 1.45;">Translates signal into personalized decisions</p>
+            </div>
+            <div style="padding: 24px 20px; background: var(--color-petrichor); color: var(--color-cloud);">
+              <p class="t-label" style="color: var(--color-lemon); font-size: 10px; margin-bottom: 12px;">03</p>
+              <p style="font-family: var(--font-secondary); font-size: clamp(13px, 1.2vw, 16px); line-height: 1.45;">Guides users back to alignment</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <a href="https://attuned.health/pages/endurance?scan_id=d84901e9-5a12-40e7-bc0c-c582615ab9cf" target="_blank" class="cta-btn">See Endurance Scan Results <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
+            <a href="https://attuned.health/pages/wellness?scan_id=39bef26f-8f6c-42a7-9617-5d4e9638c269" target="_blank" class="cta-btn">See Wellness Scan Results <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="slide-split__image">
+        <img src="Combo-on-Counter.jpg" alt="">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: WHY NOW -->
+  <div class="slide cw-petrichor" data-slide="5" data-label="Why Now">
+    <div class="slide-body">
+      <div class="two-col animate-in">
+        <div>
+          <p class="t-label" style="color: var(--color-lemon); margin-bottom: 20px;">Why now</p>
+          <h2 class="t-h1" style="color: var(--color-cloud);">Capital is scaling reactive health. The earliest signal is missing.</h2>
+          <p class="t-tagline" style="color: var(--color-cloud); opacity: 0.45; margin-top: 32px;">Billions are flowing into measurement, optimization, and intervention. Nothing is capturing signal before breakdown.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: center; gap: 0;">
+          <ul class="bullet-list">
+            <li style="color: var(--color-cloud);">Wearables projected to exceed $230B by 2033, tracking everything after the fact</li>
+            <li style="color: var(--color-cloud);">Diagnostics expanding into consumer-direct models, projected at $209B by 2032</li>
+            <li style="color: var(--color-cloud);">Supplements approaching $350B by 2032, optimizing without direction</li>
+            <li style="color: var(--color-cloud);">Digital care platforms scaling past $1T by 2034, intervening without upstream context</li>
+          </ul>
+          <div style="margin-top: 32px; padding: 20px 24px; background: var(--color-lemon);">
+            <p style="font-family: var(--font-secondary); font-size: clamp(13px, 1.3vw, 17px); font-weight: 500; color: var(--color-petrichor); letter-spacing: 0.02em;">The upstream layer is missing</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: TRACTION -->
+  <div class="slide cw-petrichor" data-slide="6" data-label="Traction">
+    <div class="slide-body">
+      <div class="animate-in" style="display: flex; flex-direction: column; gap: 28px;">
+        <div>
+          <p class="t-label" style="color: var(--color-lemon); margin-bottom: 16px;">Early validation</p>
+          <h2 class="t-h1" style="color: var(--color-cloud); max-width: 50%;">Already embedded where signal matters most</h2>
+        </div>
+        <div class="traction-grid">
+          <div class="traction-card traction-card--accent">
+            <p class="traction-card__heading">Performance</p>
+            <ul class="traction-card__items">
+              <li>Nike Swoosh TC coach signed as Performance Advisor</li>
+              <li>30+ kits distributed across Olympic athlete ecosystem</li>
+              <li>Active use within high-level endurance programs</li>
+            </ul>
+          </div>
+          <div class="traction-card traction-card--accent">
+            <p class="traction-card__heading">Institutional</p>
+            <ul class="traction-card__items">
+              <li>Partnership discussions with top-tier collegiate athletic programs</li>
+              <li>Working with top NCAA athletes</li>
+            </ul>
+          </div>
+          <div class="traction-card traction-card--accent">
+            <p class="traction-card__heading">Distribution</p>
+            <ul class="traction-card__items">
+              <li>Partnered with Dominic Schlueter (The Running Effect)</li>
+              <li>Direct access to Olympians, NCAA champions, elite runners</li>
+            </ul>
+          </div>
+          <div class="traction-card traction-card--accent">
+            <p class="traction-card__heading">Ecosystem</p>
+            <ul class="traction-card__items">
+              <li>Coaches, influencers, and performance platforms engaging</li>
+              <li>Early inbound across elite and consumer performance layers</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: PRODUCT + IP -->
+  <div class="slide cw-lemon" data-slide="7" data-label="Product + IP" style="background: none;">
+    <div class="slide-split">
+      <div class="slide-split__content" style="background: var(--color-lemon);">
+        <div class="animate-in" style="display: flex; flex-direction: column; gap: 40px;">
+          <div>
+            <p class="t-label" style="opacity: 0.45; margin-bottom: 20px;">Proprietary system</p>
+            <h2 class="t-h1">A proprietary system for signal capture and interpretation</h2>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;">
+            <div style="padding: 20px 18px; background: rgba(26,26,26,0.08);">
+              <p style="font-family: var(--font-secondary); font-size: clamp(12px, 1.1vw, 15px); line-height: 1.45;">Integrated hardware and analysis layer</p>
+            </div>
+            <div style="padding: 20px 18px; background: rgba(26,26,26,0.08);">
+              <p style="font-family: var(--font-secondary); font-size: clamp(12px, 1.1vw, 15px); line-height: 1.45;">Fully owned algorithms and logic</p>
+            </div>
+            <div style="padding: 20px 18px; background: rgba(26,26,26,0.08);">
+              <p style="font-family: var(--font-secondary); font-size: clamp(12px, 1.1vw, 15px); line-height: 1.45;">Bio-individual outputs with no static results</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-split__image">
+        <img src="Attuned_Coach.JPEG" alt="">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: WEDGE TO EXPANSION -->
+  <div class="slide cw-cloud" data-slide="8" data-label="Wedge to Expansion">
+    <div class="slide-body">
+      <div class="two-col animate-in">
+        <div>
+          <p class="t-label" style="color: var(--color-dark-gray); margin-bottom: 20px;">Go-to-market</p>
+          <h2 class="t-h1">Start where signal matters most</h2>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <div style="padding: 24px 28px; background: var(--color-petrichor);">
+            <p class="t-label" style="color: var(--color-lemon); font-size: 10px; margin-bottom: 16px;">Initial focus</p>
+            <ul class="bullet-list bullet-list--accent" style="gap: 12px;">
+              <li style="color: var(--color-cloud); font-size: clamp(13px, 1.3vw, 17px);">Elite endurance athletes</li>
+              <li style="color: var(--color-cloud); font-size: clamp(13px, 1.3vw, 17px);">Coaches and performance programs</li>
+              <li style="color: var(--color-cloud); font-size: clamp(13px, 1.3vw, 17px);">Pro Franchises &amp; Teams</li>
+              <li style="color: var(--color-cloud); font-size: clamp(13px, 1.3vw, 17px);">Community-first approach</li>
+            </ul>
+          </div>
+          <div style="padding: 24px 28px; border: 1px solid rgba(26,26,26,0.15);">
+            <p class="t-label" style="color: var(--color-dark-gray); font-size: 10px; margin-bottom: 16px;">Expansion</p>
+            <ul class="bullet-list" style="gap: 12px;">
+              <li style="font-size: clamp(13px, 1.3vw, 17px);">Broader performance population</li>
+              <li style="font-size: clamp(13px, 1.3vw, 17px);">Wellness consumers</li>
+              <li style="font-size: clamp(13px, 1.3vw, 17px);">Enterprise health systems</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: VISION -->
+  <div class="slide cw-petrichor" data-slide="9" data-label="Vision" style="background: none;">
+    <div class="slide-split">
+      <div class="slide-split__content" style="background: var(--color-petrichor);">
+        <div class="animate-in" style="display: flex; flex-direction: column; gap: 48px;">
+          <div>
+            <p class="t-label" style="color: var(--color-lemon); margin-bottom: 20px;">The long arc</p>
+            <h2 class="t-h1" style="color: var(--color-cloud);">The foundational layer for what comes next</h2>
+          </div>
+          <div class="pillars">
+            <div class="pillar">
+              <span class="pillar__num">01</span>
+              <p class="pillar__text">The entry point before diagnostics</p>
+            </div>
+            <div class="pillar">
+              <span class="pillar__num">02</span>
+              <p class="pillar__text">The signal layer before optimization</p>
+            </div>
+            <div class="pillar">
+              <span class="pillar__num">03</span>
+              <p class="pillar__text">The system guiding downstream health decisions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-split__image">
+        <img src="Middle_Mock_Center.jpg" alt="">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: CLOSE -->
+  <div class="slide cw-lemon" data-slide="10" data-label="Next Steps">
+    <div class="slide-body" style="flex-direction: row; align-items: center;">
+      <div class="two-col animate-in" style="align-items: center; width: 100%;">
+        <div>
+          <h2 class="t-h1">We're building the earliest measurable signal in the health stack</h2>
+        </div>
+        <div>
+          <p class="t-label" style="opacity: 0.45; margin-bottom: 28px;">Get in touch</p>
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px;">
+            <button class="cta-btn" onclick="navigator.clipboard.writeText('josh@attuned.health');this.querySelector('.btn-label').textContent='Copied!';setTimeout(()=>this.querySelector('.btn-label').textContent='josh@attuned.health',1500)">
+              <span class="btn-label">josh@attuned.health</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+            <button class="cta-btn" onclick="navigator.clipboard.writeText('phil@attuned.health');this.querySelector('.btn-label').textContent='Copied!';setTimeout(()=>this.querySelector('.btn-label').textContent='phil@attuned.health',1500)">
+              <span class="btn-label">phil@attuned.health</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+          </div>
+          <p class="t-label" style="opacity: 0.45; margin-bottom: 16px;">Learn more</p>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <a href="https://attuned.health/" target="_blank" class="cta-btn">
+              <span>attuned.health</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </a>
+            <a href="https://attuned.health/blogs/learning-center" target="_blank" class="cta-btn">
+              <span>More Product &amp; Science</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /slides -->
+
+<div id="bottom-nav" class="cw-petrichor">
+  <button class="nav-btn" id="btn-prev" disabled>
+    <svg viewBox="0 0 16 16" width="12" height="12" fill="none"><path d="M10 4L6 8l4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="btn-label">Prev</span>
+  </button>
+  <span class="key-hint">← → to navigate</span>
+  <button class="nav-btn" id="btn-next">
+    <span class="btn-label">Next</span>
+    <svg viewBox="0 0 16 16" width="12" height="12" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+const progressBar = document.getElementById('progress-bar');
+const btnPrev = document.getElementById('btn-prev');
+const btnNext = document.getElementById('btn-next');
+const bottomNav = document.getElementById('bottom-nav');
+const topbar = document.getElementById('topbar');
+const topbarSection = document.getElementById('topbar__section');
+const topbarPage = document.getElementById('topbar__page');
+const slidesEl = document.getElementById('slides');
+
+let current = 0;
+let isAnimating = false;
+
+function getCw(el) {
+  return [...el.classList].find(c => c.startsWith('cw-')) || 'cw-cloud';
+}
+
+function syncChrome() {
+  const slide = slides[current];
+  const cw = getCw(slide);
+
+  topbar.className = cw;
+  bottomNav.className = cw;
+  topbarSection.textContent = slide.dataset.label || '';
+  topbarPage.textContent = String(current + 1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+
+  const pct = ((current + 1) / total) * 100;
+  progressBar.style.width = pct + '%';
+  progressBar.style.background = (cw === 'cw-cloud' || cw === 'cw-lemon') ? 'var(--color-petrichor)' : 'var(--color-lemon)';
+
+  /* Cover slide: bottom nav inherits image half, so use dark bg */
+  if (cw === 'cw-cover') {
+    bottomNav.style.background = 'transparent';
+    bottomNav.style.borderTopColor = 'rgba(255,255,255,0.15)';
+  } else {
+    bottomNav.style.background = '';
+    bottomNav.style.borderTopColor = '';
+  }
+
+  btnPrev.disabled = current === 0;
+  btnNext.disabled = current === total - 1;
+  btnNext.querySelector('.btn-label').textContent = current === total - 2 ? 'Close' : 'Next';
+}
+
+function triggerAnims(slideEl) {
+  const container = slideEl.querySelector('.animate-in');
+  if (!container) return;
+  Array.from(container.children).forEach((child, i) => {
+    child.style.opacity = '0';
+    child.style.animation = 'none';
+    void child.offsetWidth;
+    child.style.animation = `slideInUp 0.5s cubic-bezier(0,0,0.2,1) ${0.05 + i * 0.1}s forwards`;
+  });
+}
+
+function goTo(idx) {
+  if (isAnimating || idx === current || idx < 0 || idx >= total) return;
+  isAnimating = true;
+
+  slides[current].classList.remove('active');
+  slides[current].classList.add('exit');
+  slides[idx].classList.add('active');
+  triggerAnims(slides[idx]);
+
+  current = idx;
+  syncChrome();
+
+  setTimeout(() => {
+    document.querySelectorAll('.slide.exit').forEach(s => {
+      s.classList.remove('exit');
+      s.classList.remove('needs-scroll');
+    });
+    slidesEl.scrollTop = 0;
+    checkOverflow(slides[current]);
+    isAnimating = false;
+  }, 650);
+}
+
+btnNext.addEventListener('click', () => goTo(current + 1));
+btnPrev.addEventListener('click', () => goTo(current - 1));
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
+});
+
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 50) dx < 0 ? goTo(current + 1) : goTo(current - 1);
+}, { passive: true });
+
+function checkOverflow(slide) {
+  slide.classList.remove('needs-scroll');
+  const container = slidesEl;
+  const containerH = container.clientHeight;
+  slide.style.height = 'auto';
+  const contentH = slide.scrollHeight;
+  slide.style.height = '';
+  if (contentH > containerH + 2) {
+    slide.classList.add('needs-scroll');
+    slidesEl.style.overflowY = 'auto';
+  } else {
+    slidesEl.style.overflowY = 'hidden';
+  }
+}
+
+slides[0].classList.add('active');
+triggerAnims(slides[0]);
+syncChrome();
+checkOverflow(slides[0]);
+</script>
+</body>
+</html>
